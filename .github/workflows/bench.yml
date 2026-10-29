@@ -2,9 +2,10 @@ name: System Performance Benchmark
 
 on:
   schedule:
-    # Runs every 30 minutes with off-peak minute offset to eliminate queue delays
     - cron: '17,47 * * * *'
   workflow_dispatch:
+  repository_dispatch:
+    types: [auto_ping, live_sync]
 
 permissions:
   contents: write
