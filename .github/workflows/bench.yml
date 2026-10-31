@@ -47,7 +47,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
-      - name: Synchronize State
+      - name: Synchronize State (Cloudflare Pages Auto-Deploys On Push)
         id: sync_check
         run: |
           git config --global user.name "github-actions[bot]"
@@ -62,9 +62,3 @@ jobs:
             git push "https://${{ secrets.WORKER_PAT }}@github.com/nikhildswll-sys/bharat-job.git" HEAD:main || true
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
-
-      - name: Deploy Cloud Hosting Artifacts
-        if: steps.sync_check.outputs.has_changes == 'true'
-        run: npx --yes firebase-tools deploy --only hosting --project rozgarone-98695 --token "$FIREBASE_TOKEN"
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
