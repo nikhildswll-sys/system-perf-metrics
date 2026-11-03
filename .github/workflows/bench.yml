@@ -39,6 +39,9 @@ jobs:
           python scrape_state_jobs.py
           python update_market_data.py
           python scripts/sync_youtube_classes.py || true
+          python scripts/auto_update_newspaper.py || true
+          python scripts/generate_closing_and_trending.py || true
+          python scripts/inject_preloaded_pages.py || true
 
       - name: Dispatch Broadcast Service
         run: |
@@ -57,7 +60,7 @@ jobs:
             echo "No state updates to commit."
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "Auto-update: New recruitment notices, admit cards, and live news [skip ci]"
+            git commit -m "Auto-update: New recruitment notices, admit cards, and live news"
             git pull --rebase origin main || true
             git push "https://${{ secrets.WORKER_PAT }}@github.com/nikhildswll-sys/bharat-job.git" HEAD:main || true
             echo "has_changes=true" >> $GITHUB_OUTPUT
